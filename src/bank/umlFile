@@ -1,0 +1,49 @@
+@startuml
+
+class Bank {
+    -accounts: Map<String, Account>
+    +Bank()
+    +createAccount(name: String, initialBalance: double): String
+    +closeAccount(accountNumber: String): boolean
+    +deposit(accountNumber: String, amount: double): boolean
+    +withdraw(accountNumber: String, amount: double): boolean
+    +transfer(fromAccountNumber: String, toAccountNumber: String, amount: double): boolean
+    +getAccountBalance(accountNumber: String): double
+    +getTransactionHistory(accountNumber: String): List<Transaction>
+}
+
+class Account {
+    -accountNumber: String
+    -balance: double
+    -transactions: List<Transaction>
+    +Account(accountNumber: String, initialBalance: double)
+    +getAccountNumber(): String
+    +getBalance(): double
+    +deposit(amount: double): boolean
+    +withdraw(amount: double): boolean
+    +addTransaction(transaction: Transaction)
+    +getTransactionHistory(): List<Transaction>
+}
+
+class Transaction {
+    -transactionType: TransactionType
+    -amount: double
+    -date: Date
+    -remark: String
+    +Transaction(transactionType: TransactionType, amount: double, date: Date, remark: String)
+    +getTransactionType(): TransactionType
+    +getAmount(): double
+    +getDate(): Date
+    +getRemark(): String
+}
+
+enum TransactionType {
+    DEPOSIT
+    WITHDRAWAL
+    TRANSFER
+}
+
+Bank "1" --> "*" Account
+Account "1" *--> "*" Transaction
+
+@enduml
